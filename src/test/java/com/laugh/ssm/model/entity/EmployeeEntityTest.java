@@ -1,5 +1,6 @@
 package com.laugh.ssm.model.entity;
 
+import com.laugh.ssm.mapper.DealParamMapper;
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
@@ -34,6 +35,16 @@ public class EmployeeEntityTest {
 
             employeeMapper.deleteById(employeeEntity.getId());
             System.out.println(employeeMapper.getEmployeeById(employeeEntity.getId()));
+        }
+    }
+
+    @Test
+    public void testParam() throws IOException {
+        try (SqlSession sqlSession = getSqlSession()) {
+            DealParamMapper dealParamMapper = sqlSession.getMapper(DealParamMapper.class);
+            System.out.println(dealParamMapper.singleParam(1));
+            System.out.println(dealParamMapper.twoParams(1, "你好"));
+            System.out.println(dealParamMapper.twoParamsSet(1, "你好"));
         }
     }
 }

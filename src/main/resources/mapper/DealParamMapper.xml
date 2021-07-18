@@ -3,4 +3,41 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.laugh.ssm.mapper.DealParamMapper">
+
+    <!--  单个参数时，可以通过#{xx}来获取接口传递的值，其中xx可以随便命名，没有区别
+          如果传递的参数是一个pojo，则可以通过#{属性名}的方式来获取其中的属性值
+    -->
+    <select id="singleParam" resultType="com.laugh.ssm.model.entity.EmployeeEntity">
+        select *
+        from tb1_employee
+        where id = #{id}
+    </select>
+
+    <!--  多个参数时，也可以通过#{xx}来获取接口传递的值
+        但此时，MyBatis会将参数封装到一个map中，而#{}就是从map中获取指定key的值
+        其中，key为：param1、param2......paramN，
+        或者是参数的索引：0,1,2......n(v3.4.1及以前的版本)，以后的版本修改了默认配置信息，改为了arg0、arg1......argN
+    -->
+    <select id="twoParams" resultType="com.laugh.ssm.model.entity.EmployeeEntity">
+        select *
+        from tb1_employee
+        where id = #{param1}
+          and last_name = #{param2}
+    </select>
+
+    <!--  也可以通过@Param注解来指定参数名称，多参数时，推荐这种方式！！！  -->
+    <select id="twoParamsSet" resultType="com.laugh.ssm.model.entity.EmployeeEntity">
+        select *
+        from tb1_employee
+        where id = #{id}
+          and last_name = #{lastName}
+    </select>
+
+    <!--  参数过多时，建议封装为一个DTO(data transfer object)来传递参数  -->
+
+    <!--  mybatis也可以用${xx}来获取接口传递的值
+          区别：#采用的是预编译的方式(JDBC)，可以防止sql注入
+               $相当于字符串拼接，无法防止sql注入
+          大部分情况，使用#{}的方式，但在jdbc不支持预编译的地方，就可以使用${}，如表名(分库分表)、order by子句
+      -->
 </mapper>
