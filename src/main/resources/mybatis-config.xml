@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+
+    <!--  可用于引入外部配置文件的内容
+            resource:引入类路径下的资源
+            url:引入网络路径或者磁盘路径下的资源
+      -->
+    <properties resource="application.properties"/>
+
+    <!--  settings包含了很多mybatis的重要设置
+          setting用来设置每一项
+    -->
+    <settings>
+        <setting name="mapUnderscoreToCamelCase" value="true"/>
+    </settings>
+
+    <!--  别名处理器，可以为Java类型起别名,别名都不区分大小写  -->
+    <typeAliases>
+        <!--  单个别名
+              type:类型全类名,默认别名就是类名
+              alias:指定的别名
+           -->
+        <typeAlias type="com.laugh.ssm.model.entity.EmployeeEntity" alias="emp"/>
+        <!--  为某个包下的所有类批量起别名
+              name:指定包名，为包下面的所有类都给一个默认别名
+              注意！！！如果包下面有两个同名的类（不同包），这种方式就会出错
+              解决方法：在类上用@Alias注解为同名的类起别名
+          -->
+        <package name="org.laughtale.ssm.model.entity"/>
+    </typeAliases>
+
+    <environments default="development">
+        <environment id="development">
+            <transactionManager type="JDBC"/>
+            <dataSource type="POOLED">
+                <property name="driver" value="com.mysql.cj.jdbc.Driver"/>
+                <property name="url" value="${spring.database.url}"/>
+                <property name="username" value="${spring.database.username}"/>
+                <property name="password" value="${spring.database.password}"/>
+            </dataSource>
+        </environment>
+    </environments>
+    <mappers>
+        <mapper resource="mapper/EmployeeMapper.xml"/>
+        <mapper resource="mapper/DealParamMapper.xml"/>
+    </mappers>
+</configuration>

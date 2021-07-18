@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.laugh.ssm.mapper.EmployeeMapper">
+    <!--  useGeneratedKeys：开启获取自增主键
+    keyProperty：设置自增主键赋值给javabean的哪个属性
+      -->
+    <insert id="insertEmployee" useGeneratedKeys="true" keyProperty="id">
+        insert into tb1_employee (id, gender, last_name, email)
+        values (null, #{gender}, #{lastName}, #{email})
+    </insert>
+
+    <delete id="deleteById">
+        delete
+        from tb1_employee
+        where id = #{id}
+    </delete>
+
+    <select id="getEmployeeById" resultType="emp">
+        select *
+        from tb1_employee
+        where id = #{id};
+    </select>
+
+    <update id="updateEmployeeById">
+        update tb1_employee
+        set gender    = #{gender},
+            last_name = #{lastName},
+            email     = #{email}
+        where id = #{id}
+    </update>
+</mapper>
